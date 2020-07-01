@@ -1,23 +1,84 @@
 const fs = require('fs');
 const path = require('path');
+const student = require('./one.json');
+const csv = require('csv-parser');
+const createCsvWriter = require('csv-writer').createObjectCsvWriter;
 
-// task 1 - lear to read file
-// way 1
-/*
-fs.readFile('t1.txt', 'utf-8', (err, data) => {
-    console.log(data);
+/*fs.writeFile('one.txt', 'work', (err) => {
+    if(err) console.log('Error');
+});*/
+
+/**
+ * Case 1. Записываем json file
+ */
+
+const man = {
+    name: 'Alex',
+    age: 22,
+    department: 'History',
+    car: 'vaz'
+};
+
+/*fs.writeFile('one.json', JSON.stringify(man), (err) => {
+    if(err) console.log('Error');
+});*/
+
+/**
+ * Case 2. Читаем json file
+ */
+
+//console.log(student);
+
+/**
+ * Case 3. Читаем CSV json file
+ */
+
+const results = [];
+
+fs.createReadStream('test.csv')
+    .pipe(csv())
+    .on('data', (data) => results.push(data))
+    .on('end', () =>{
+        console.log(results);
+    });
+
+
+/**
+ * case 4. Пишем  CSV file
+ */
+
+/*const csvWriter = createCsvWriter({
+    path: 'test.csv',
+    header: [
+        {id: 'name', title: 'NAME'},
+        {id: 'surname', title: 'Last Name'},
+        {id: 'age', title: 'AGE'},
+        {id: 'gender', title: 'GENDER'}
+    ]
 });
 
-let text = fs.readFileSync('t1.t xt', 'utf-8');
-console.log(text);
+const data = [
+  {
+    name: 'John',
+    surname: 'Snow',
+    age: 26,
+    gender: 'M'
+  },
+  {
+    name: 'Clair',
+    surname: 'White',
+    age: 33,
+    gender: 'F'
+  },
+  {
+    name: 'Fancy',
+    surname: 'Brown',
+    age: 78,
+    gender: 'F'
+  }
+];
 
-console.log('==============');*/
-
-fs.readdir('one', (err, data) => {
-    console.log(data);
-    data.forEach(file => {
-        console.log(file);
-        console.log(path.extname(file));
-        console.log(fs.statSync('one/'+file).size);
-    })
-});
+csvWriter.writeRecords(data)
+    .then(() => {
+      console.log('...Done');
+    });*/
