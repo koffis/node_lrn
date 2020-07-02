@@ -1,32 +1,39 @@
-const http = require('http');
-const url = require('url');
-const { parse } = require('querystring');
+const mysql = require('mysql');
 
-http.createServer((request, response) => {
-    console.log('server work');
-    if (request.method === 'GET') {
-        // GET -> получить
-        console.log(request.method); // !!!!
-        let urlRequest = url.parse(request.url, true);
-        //console.log(urlRequest);
-        console.log(urlRequest.query.p);
-        if (urlRequest.query.p  === '70') {
-            response.end('800');
-        }
-        response.end('ne 800');
-    } else {
-        // POST
-        let body = '';
-        request.on('data', chunk => {
-            body += chunk.toString();
-        });
-        request.on('end', () => {
-            console.log(body);
-            let params = parse(body);
-            console.log(params);
-            console.log(params.hi);
-            response.end('ok');
-        });
+// конфигурация пакетов
+
+const conn = mysql.createConnection({
+   host: "127.0.0.1",
+   user: "root",
+   database: "node_test",
+   password: "root"
+});
+
+conn.connect( err => {
+    if (err) {
+        console.log(err);
+        return err;
     }
-}).listen(3002);
+    else{
+        console.log('Database -----> OK');
+    }
+});
 
+let query = "SELECT * FROM `user`";
+
+conn.query(query, (err, result, field) =>{
+    console.log(err);
+    console.log(result);
+    console.log(result[1]['lastname']);
+   // console.log(field);
+});
+
+conn.end( err =>{
+    if (err) {
+        console.log(err);
+        return err;
+    }
+    else{
+        console.log('Database -----> Close');
+    }
+});
