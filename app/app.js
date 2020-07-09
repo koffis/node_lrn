@@ -1,11 +1,8 @@
-const config = require('./config');
+let user = require('./user/user');
 
-const f2 =require('./f2/index');
+let vasya = new user.User('Vasya');
+let petya = new user.User('Petya');
 
-console.log('node ----------------> ok');
-console.log(config);
-console.log(config.f(3,4));
+vasya.hello(vasya);
 
-console.log(f2(4));
-
-// new commit will be here
+console.log("user.js is required!");
